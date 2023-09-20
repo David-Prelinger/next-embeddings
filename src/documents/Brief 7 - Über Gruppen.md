@@ -1,0 +1,1 @@
+Man sollte crowds (Gruppen) vermeiden, wenn man zurückkommt, verliert man einen Teil seines Charakters. Umso größer die Gruppe, desto gefährlich. Man kommt mehr neidisch, raffgieriger etc. zurück nachdem man Menschen getroffen hat. Seneca hat dies besonders auf die Menschenkämpfe in dem Kolosseum bezogen. 

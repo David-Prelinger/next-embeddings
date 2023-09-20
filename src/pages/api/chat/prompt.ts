@@ -20,9 +20,12 @@ import { TextLoader } from "langchain/document_loaders/fs/text";
 import { AIMessage, BaseMessageFields, ChainValues, HumanMessage, SystemMessage } from 'langchain/schema';
 import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
 import { ChatCompletion } from 'openai/resources/chat/index.mjs';
+import { OpenAIStream, StreamingTextResponse } from 'ai';
+import { NextResponse } from 'next/server';
+import { Readable } from 'stream';
 
 
-
+//export const runtime = 'edge' // 'nodejs' is the default
 
 type ResponseData = {
   message: string
@@ -32,13 +35,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+
   // Check if the request method is not POST
   if (req.method !== 'POST') {
     res.status(405).end(); // Send a 405 Method Not Allowed response
     return; // Exit the function early
   }
-  require('dotenv').config()
-
+// Set the appropriate headers for Server Sent Events - SSE
+  //res.setHeader('Content-Type', 'text/event-stream');
+  //res.setHeader('Cache-Control', 'no-cache');
   const client = (weaviate).client({
     scheme: "https",
     host: "openai-experiments-c3kzigtu.weaviate.network",
@@ -52,7 +57,7 @@ export default async function handler(
   const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo", openAIApiKey: process.env.OPEN_API_KEY, streaming: true });
 
   const store = await WeaviateStore.fromExistingIndex(embeddings, { client: client, indexName: "Test" });
-
+  console.log("OK")
 
 
   var pastMessages = [
@@ -61,13 +66,13 @@ export default async function handler(
 
   const pagecontents: string[] = [];
   (await store.asRetriever().getRelevantDocuments(prompt,)).forEach(e => pagecontents.push(e.pageContent));
-
+  
   const question = prompt;
   const openai = new OpenAI({
     apiKey: process.env.OPEN_API_KEY,
   });
   req.body.history.push({ "role": "user", "content": prompt + ` \n Consider the following context ${pagecontents[0]}` })
-  const response: ChatCompletion = await openai.chat.completions.create({
+  const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: req.body.history,
     temperature: 1,
@@ -75,7 +80,29 @@ export default async function handler(
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
+    stream: true
   });
-  res.status(200).json(response.choices[0].message.content);
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders(); // flush the headers to establish SSE with the client
+
+
+
+  const readable = new Readable({
+    read() {}
+  });
+
+  for await (const chunk of response) {
+    const dataToSend = chunk.choices[0].delta.content ?? '';
+    res.write(dataToSend)
+
+  }
+  
+  req.on('close', () => {
+    // You can clean up any resources here, if needed.
+    res.end();
+  });
 
 }
