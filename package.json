@@ -9,14 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.6",
     "@types/node": "20.6.2",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "cookie": "^0.5.0",
+    "dotenv": "^16.3.1",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "iron-session": "^6.3.1",
+    "langchain": "^0.0.150",
     "next": "13.4.19",
+    "nodemon": "^3.0.1",
+    "openai": "^4.7.1",
     "react": "18.2.0",
+    "react-daisyui": "^4.1.1",
     "react-dom": "18.2.0",
-    "typescript": "5.2.2"
+    "swr": "^2.2.2",
+    "typescript": "5.2.2",
+    "weaviate-ts-client": "^1.5.0"
+  },
+  "devDependencies": {
+    "@types/cookie": "^0.5.2",
+    "autoprefixer": "^10.4.15",
+    "daisyui": "^3.7.5",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3"
   }
 }
