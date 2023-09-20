@@ -16,10 +16,12 @@ export default function RootLayout({
 }) {
 
   return (
-    <Theme>   <div className={inter.className}>
-      {children}
-    </div>
+    <Theme className="h-screen">
+      <div className={inter.className + " h-full"}>
+        {children}
+      </div>
     </Theme>
+
 
   )
 }

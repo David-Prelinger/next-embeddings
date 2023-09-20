@@ -31,19 +31,46 @@ type ResponseData = {
   message: string
 }
 
+// Example dummy function hard coded to return the same weather
+// In production, this could be your backend API or an external API
+function getCurrentWeather(location: string, unit = "fahrenheit") {
+  const weatherInfo = {
+      "location": location,
+      "temperature": "72",
+      "unit": unit,
+      "forecast": ["sunny", "windy"],
+  };
+  return JSON.stringify(weatherInfo);
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
 
-  // Check if the request method is not POST
   if (req.method !== 'POST') {
-    res.status(405).end(); // Send a 405 Method Not Allowed response
-    return; // Exit the function early
+    res.status(405).end(); 
+    return;
   }
-// Set the appropriate headers for Server Sent Events - SSE
-  //res.setHeader('Content-Type', 'text/event-stream');
-  //res.setHeader('Cache-Control', 'no-cache');
+
+  const functions = [
+    {
+        "name": "get_current_weather",
+        "description": "Get the current weather in a given location",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "type": "string",
+                    "description": "The city and state, e.g. San Francisco, CA",
+                },
+                "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+            },
+            "required": ["location"],
+        },
+    }
+];
+
   const client = (weaviate).client({
     scheme: "https",
     host: "openai-experiments-c3kzigtu.weaviate.network",
@@ -57,8 +84,6 @@ export default async function handler(
   const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo", openAIApiKey: process.env.OPEN_API_KEY, streaming: true });
 
   const store = await WeaviateStore.fromExistingIndex(embeddings, { client: client, indexName: "Test" });
-  console.log("OK")
-
 
   var pastMessages = [
     new SystemMessage("Always provide helpful information. Sometimes you can infer it from previous messages. You always know an answer."),
@@ -80,29 +105,27 @@ export default async function handler(
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    stream: true
+    stream: true,
+    functions: functions,
+    function_call: "auto",
   });
 
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders(); // flush the headers to establish SSE with the client
-
-
-
-  const readable = new Readable({
-    read() {}
-  });
-
+  let responseMessage: string = '';
   for await (const chunk of response) {
     const dataToSend = chunk.choices[0].delta.content ?? '';
+    responseMessage += dataToSend;
     res.write(dataToSend)
 
   }
+
   
   req.on('close', () => {
     // You can clean up any resources here, if needed.
-    res.end();
+    return res.end();
   });
 
 }

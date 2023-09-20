@@ -1,5 +1,8 @@
 import { FormEvent, useState } from 'react';
 import useUser from '../utils/useUser';
+import Layout from '@/app/layout';
+
+
 
 export default function Login() {
   // here we just check if user is already logged in and redirect to admin
@@ -35,16 +38,38 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Enter password
-        <input type='password' name='password' required />
-        {errorMsg && <p className="text-red-500 mt-2">{errorMsg}</p>}
-      </label>
-
-      <button type='submit'>Login</button>
-
-      {errorMsg && <p>{errorMsg}</p>}
-    </form>
+    <Layout>
+    <div className="min-h-screen flex items-center justify-center animated-background">
+  
+      <form className="bg-white p-8 rounded-xl shadow-md" onSubmit={handleSubmit}>
+        
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            Enter password
+          </label>
+          <input 
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            type='password' 
+            id="password"
+            name='password' 
+            required 
+          />
+          {errorMsg && <p className="text-red-500 mt-2">{errorMsg}</p>}
+        </div>
+  
+        <div className="mt-6">
+          <button 
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+            type='submit'
+          >
+            Login
+          </button>
+        </div>
+  
+      </form>
+      
+    </div>
+  </Layout>
+  
   );
 }
