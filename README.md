@@ -6,6 +6,9 @@ Therefore I embedded some documents via the OpenAI API and saved the vectors in 
 database. Then, in the chat app, the user can write questions which are answered based on the data
 available in the vectorstore. 
 
+Note: In this latest commit I disabled the embedding, so it won't know special knowledge. I introduced
+*Brad Chad* though. Try to chat with him.
+
 A working example can be seen [here](https://next-embeddings.vercel.app/chat/chat). You have to ask me for the password though.
 
 ### Future Goal

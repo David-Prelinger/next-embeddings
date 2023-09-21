@@ -23,7 +23,7 @@ const PasswordProtectPage = () => {
     const router = useRouter();
     const [text, setText] = useState('');
     const [messages, setMessages] = useState([
-        { role: 'assistant', content: 'How can I help you?' },
+        { role: 'assistant', content: 'What´s poppin?' },
     ]);
 
     const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

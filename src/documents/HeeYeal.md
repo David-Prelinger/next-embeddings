@@ -1,3 +1,0 @@
-HeeYeal is a student at Colorado College. He lives in the elite apartments. He is interested in politics and computer science. He is from South Korea and really wants to obtain american citizenship.
-His goal is to obtain american citizenship by marrying an american woman. Another option for him is to
-go to the Navy and serve there some years to get citizenship. He also trades stocks. He plays table tennis and normal tennis. HeeYeal also likes to play pool.
