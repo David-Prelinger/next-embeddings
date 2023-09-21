@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Layout from "@/app/layout";
+import { DotWave } from '@uiball/loaders'
 
 async function* streamAsyncIterable(stream: any) {
     const reader = stream.getReader();
@@ -36,6 +37,7 @@ const PasswordProtectPage = () => {
         setMessages(prevMessages => [
             ...prevMessages,
             { role: 'user', content: text },
+            { role: 'assistant', content: '' },
         ]);
         try {
             const response = await fetch('/api/chat/prompt', {
@@ -47,39 +49,24 @@ const PasswordProtectPage = () => {
             });
 
             const decoder = new TextDecoder("utf-8");
-            var data: string = "";
 
-            let firstChunkProcessed = false;
-
-            for await (const chunk of streamAsyncIterable(response.body)) {
-                data += decoder.decode(chunk);
-
-                if (!firstChunkProcessed) {
-                    // This is the first chunk, so add a new 'assistant' message
-                    setMessages(prevMessages => [
-                        ...prevMessages,
-                        { role: 'assistant', content: data }
-                    ]);
-                    firstChunkProcessed = true;
-                } else {
-                    // This is a subsequent chunk, so update the last 'assistant' message
-                    setMessages(prevMessages => {
-                        // Get all messages except the last one
-                        const allButLast = prevMessages.slice(0, prevMessages.length - 1);
-
-                        // Update the last message
-                        const updatedLastMessage = {
-                            ...prevMessages[prevMessages.length - 1],
-                            content: data
-                        };
-
-                        return [...allButLast, updatedLastMessage];
-                    });
-                }
-            }
+            const data = await response.json();
+            setMessages(prevMessages => {
+                prevMessages.pop();
+                return [
+                    ...prevMessages,
+                    { role: 'user', content: text },
+                    { role: 'assistant', content: data }
+                ];
+            });
 
         } catch (error) {
-            console.error("Failed to send the request:", error);
+            setMessages(prevMessages => {
+                return [
+                    ...prevMessages,
+                    { role: 'assistant', content: 'Something failed' }
+                ];
+            });
         }
     };
 
@@ -97,6 +84,8 @@ const PasswordProtectPage = () => {
                             <div
                                 className={`chat-bubble ${message.role == 'assistant' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'} p-3 rounded-lg shadow-md max-w-[70%]`}
                             >
+                                {message.content == '' ? <DotWave size={35} color="#EEEEEE" /> : ''}
+                                
                                 {message.content}
                             </div>
                         </div>
