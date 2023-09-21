@@ -39,7 +39,7 @@ export default function Login() {
 
   return (
     <Layout>
-    <div className="min-h-screen flex items-center justify-center animated-background">
+    <div className="min-h-screen flex items-center justify-center animated-background bg-neutral-300">
   
       <form className="bg-white p-8 rounded-xl shadow-md" onSubmit={handleSubmit}>
         

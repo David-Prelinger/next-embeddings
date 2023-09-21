@@ -85,7 +85,7 @@ export default async function handler(
   const store = await WeaviateStore.fromExistingIndex(embeddings, { client: client, indexName: "Test" });
 
   var pastMessages = [
-    new SystemMessage("Always provide helpful information. Sometimes you can infer it from previous messages. Only do what the question asks you to do. Any additional information is optional to use. Be cynical and sarcastic in your responses. Use a language which may be common in the hood."),
+    new SystemMessage("Always provide helpful information. Sometimes you can infer it from previous messages. Only do what the question asks you to do. Any additional information is optional to use. Be cynical and sarcastic in your responses. Use a language which may be common in the hood. "),
   ];
 
   const pagecontents: string[] = [];
