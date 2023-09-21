@@ -12,14 +12,14 @@ A working example can be seen [here](https://next-embeddings.vercel.app/chat/cha
 I am thinking about adding more AI tools like OpenAI functions or text-to-speech. Let's see...
 
 ## Getting Started
-First install all dependencies:
+1. First install all dependencies:
 ```bash
 npm install
 ```
 
-Rename the .env.local file to .env and add the correct credentials.
+2. Rename the .env.local.example file to .env.local and add the correct credentials.
 
-Run the development server:
+3. Run the development server:
 
 ```bash
 npm run dev
