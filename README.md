@@ -1,31 +1,31 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Project Idea
+As a learning project, I wanted to write a chat app with context based knowledge.
+Therefore I embedded some documents via the OpenAI API and saved the vectors in a weaviate
+database. Then, in the chat app, the user can write questions which are answered based on the data
+available in the vectorstore. 
 
-First, run the development server:
+A working example can be seen [here](https://next-embeddings.vercel.app/chat/chat). You have to ask me for the password though.
+
+### Future Goal
+I am thinking about adding more AI tools like OpenAI functions or text-to-speech. Let's see...
+
+## Getting Started
+First install all dependencies:
+```bash
+npm install
+```
+
+Rename the .env.local file to .env and add the correct credentials.
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Open [http://localhost:3000/chat/chat](http://localhost:3000/chat/chat) with your browser to see the result.
 
 ## Deploy on Vercel
 
