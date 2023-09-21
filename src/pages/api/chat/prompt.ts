@@ -52,7 +52,6 @@ export default async function handler(
     res.status(405).end(); 
     return;
   }
-
   const functions = [
     {
         "name": "get_current_weather",
@@ -87,6 +86,7 @@ export default async function handler(
   const pagecontents: string[] = [];
   (await store.asRetriever().getRelevantDocuments(prompt,)).forEach(e => pagecontents.push(e.pageContent));
   
+
   const question = prompt;
   const openai = new OpenAI({
     apiKey: process.env.OPEN_API_KEY,
@@ -140,5 +140,6 @@ export default async function handler(
     functions: functions,
     function_call: "auto",
   });
+
   return res.status(200).json(response.choices[0].message.content);
 }

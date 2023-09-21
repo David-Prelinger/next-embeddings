@@ -45,7 +45,8 @@ const PasswordProtectPage = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ prompt: text, history: messages })
+                body: JSON.stringify({ prompt: text, history: messages }),
+                signal: AbortSignal.timeout(60000),
             });
 
             const decoder = new TextDecoder("utf-8");
@@ -62,6 +63,7 @@ const PasswordProtectPage = () => {
             });
 
         } catch (error) {
+            console.log(error)
             setMessages(prevMessages => {
                 return [
                     ...prevMessages,
