@@ -53,6 +53,7 @@ const PasswordProtectPage = () => {
             const data = await response.json();
             setMessages(prevMessages => {
                 prevMessages.pop();
+                prevMessages.pop();
                 return [
                     ...prevMessages,
                     { role: 'user', content: text },
