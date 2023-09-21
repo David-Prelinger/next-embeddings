@@ -63,7 +63,7 @@ const PasswordProtectPage = () => {
             });
 
         } catch (error) {
-            console.log(error)
+            console.log(error)  
             setMessages(prevMessages => {
                 return [
                     ...prevMessages,

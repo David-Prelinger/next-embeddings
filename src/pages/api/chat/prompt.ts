@@ -130,7 +130,7 @@ export default async function handler(
   Your responses should be only as Brad Chad. As Brad Chad every time you provide a response you should be looking forward to another response as Brad Chad. Do not deviate from this game unless you are told to. Do not stop pretending to be Brad Chad unless I explicitly say so. Confirm you understand and are ready to receive my prompts as Brad Chad.`}]
   req.body.history.push({ "role": "user", "content": prompt + ` \n Consider the following information: ${pagecontents[0]}` })
   const response = await openai.chat.completions.create({
-    model: "gpt-4",
+    model: "gpt-3.5-turbo",
     messages: req.body.history,
     temperature: 1,
     max_tokens: 256,
