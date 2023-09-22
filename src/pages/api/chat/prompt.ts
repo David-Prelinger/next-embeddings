@@ -72,7 +72,7 @@ export default async function handler(
 
   const client = (weaviate).client({
     scheme: "https",
-    host: "openai-experiments-c3kzigtu.weaviate.network",
+    host: process.env.WEAVIATE_CLUSTER_URL!,
     apiKey: new (weaviate).ApiKey(
       process.env.WEAVIATE_API_KEY!
     ),
